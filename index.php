@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+echo 'test';
+
 include 'configs.php';
 include 'autoload.php';
 
