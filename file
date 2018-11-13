@@ -1,0 +1,19 @@
+
+1.
+git clone https://github.com/tikstudio/group9.git mvc
+cd mvc
+git branch <name>
+git checkout <name>
+git add .
+git commit -m"<message>"
+git push 
+
+
+2.
+git pull <branch_name>
+git add .
+git commit -m"<message>"
+git push 
+
+
+
