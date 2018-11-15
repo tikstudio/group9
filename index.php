@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-echo 'test';
-
 include 'configs.php';
 include 'autoload.php';
 
@@ -24,7 +22,6 @@ if (empty($referer_arr[1])) {
 
 $controller_name = ucfirst($referer_arr[0]);
 $controller_name = 'controller\\' . $controller_name . 'Controller';
-
 
 if (class_exists($controller_name)) {
     $controller = new $controller_name();
