@@ -31,7 +31,7 @@ abstract class Controller {
     }
 
     protected function isPost() {
-        return !empty($_POST);
+        return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
 
     protected function redirect($to) {

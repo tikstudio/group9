@@ -10,6 +10,7 @@ if (isset($_COOKIE['time-zone'])) {
 
 
 $referer = str_replace(ROOT_DIR, '', $_SERVER['REQUEST_URI']);
+$referer = preg_replace('/[\?#].*$/is', '', $referer);
 $referer_arr = explode('/', trim($referer, '/'));
 
 if (empty($referer_arr[0])) {

@@ -12,9 +12,11 @@ class User extends Model {
     }
 
     public function getUserById($id) {
-        return $this->getRow("SELECT * FROM users WHERE id = :id", [
+        $data = $this->getRow("SELECT * FROM users WHERE id = :id", [
             'id' => $id,
         ]);
+        unset($data['password']);
+        return $data;
     }
 
     public function editUser($newName, $newPass, $email) {
