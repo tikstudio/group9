@@ -26,6 +26,7 @@ class ChatController extends Controller {
             'all_users' => $all_users,
             'messages' => $messages,
             'friend_id' => $friend_id,
+
         ]);
     }
 
