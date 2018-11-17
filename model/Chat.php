@@ -3,6 +3,8 @@
 namespace model;
 
 
+use includes\Date;
+
 class Chat extends Model {
 
 
@@ -30,7 +32,7 @@ class Chat extends Model {
                 'from' => $from,
                 'to' => $to,
                 'message' => $message,
-                'date' => $date,
+                'date' => Date::getGmDate($date),
             ]
         );
     }

@@ -13,8 +13,9 @@ class Date {
 
 
     public static function getGmDate($time = 0) {
-        $time = $time ? $time : time();
-        return gmdate('Y-m-d H:i:s', $time);
+        $timestamp = time()+date("Z");
+        $gmt_date = gmdate("Y/m/d H:i:s",$timestamp);
+        return $gmt_date;
     }
 
     public static function computeDate($date) {
