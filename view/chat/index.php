@@ -17,8 +17,8 @@
                                 <a href="?friend=<?= $u['id'] ?>">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <?php $img = $u['id'] == $user['id'] ? 'user' : 'user2' ?>
-                                            <img src="<?= SITE_URL ?>/assets/images/<?= $img ?>.png"
+<!--                                            --><?php //$img = $u['id'] == $user['id'] ? 'user' : 'user2' ?>
+                                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                                  class="rounded-circle user_img">
                                             <span class="online_icon"></span>
                                         </div>
@@ -40,7 +40,7 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src="<?= SITE_URL ?>/assets/images/user.png"
+                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
@@ -68,22 +68,22 @@
                         if ($user['id'] === $m['from']): ?>
                             <div class="d-flex justify-content-start mb-4">
                                 <div class="img_cont_msg">
-                                    <img src="<?= SITE_URL ?>/assets/images/user.png"
+                                    <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                          class="rounded-circle user_img_ms">
                                 </div>
                                 <div class="msg_cotainer">
                                     <?= $m['message'] ?>
-                                    <span class="msg_time">8:40 AM, Today</span>
+                                    <span class="msg_time"><?= $m['date'] ?></span>
                                 </div>
                             </div>
                         <?php else: ?>
                             <div class="d-flex justify-content-end mb-4">
                                 <div class="msg_cotainer_send">
                                     <?= $m['message'] ?>
-                                    <span class="msg_time_send">8:55 AM, Today</span>
+                                    <span class="msg_time_send"><?= $m['date'] ?></span>
                                 </div>
                                 <div class="img_cont_msg">
-                                    <img src="<?= SITE_URL ?>/assets/images/user2.png"
+                                    <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                          class="rounded-circle user_img_ms">
                                 </div>
                             </div>

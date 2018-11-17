@@ -611,6 +611,7 @@ label.valid:after {
     background: #1da0f2;
 }
 
+
 .zmdi-google {
     background: #e72734;
 }
@@ -723,4 +724,9 @@ label.valid:after {
     color: #F44336;
     font-size: 12px;
     margin-top: 0;
+}
+
+.file{
+    background: #1da0f2;
+    width: 30px;
 }
