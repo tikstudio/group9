@@ -34,5 +34,8 @@ class Chat extends Model {
             ]
         );
     }
+    public function getLastId(){
+
+    }
 
 }

@@ -21,11 +21,14 @@ class ChatController extends Controller {
 
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
+        $last_id = $this->model->getLastId();
+
         $this->render('index', [
             'user' => $user,
             'all_users' => $all_users,
             'messages' => $messages,
             'friend_id' => $friend_id,
+            'last_id' => $last_id,
 
         ]);
     }
@@ -34,7 +37,8 @@ class ChatController extends Controller {
         if ($this->isPost()) {
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
-            $gmt_date = Date::getGmDate();
+           var_dump( $gmt_date = Date::getGmDate());
+
             $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date);
             if ($m_id) {
 
