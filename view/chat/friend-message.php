@@ -7,7 +7,8 @@
 
     </div>
     <div class="img_cont_msg">
-        <img src="<?= SITE_URL ?>/assets/images/user2.png"
-             class="rounded-circle user_img_ms">
+        <?php $image = $friend_img ? $friend_img : 'user2.png' ?>
+        <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
+             class="rounded-circle user_img_msg">
     </div>
 </div>

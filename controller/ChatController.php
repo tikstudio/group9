@@ -23,13 +23,21 @@ class ChatController extends Controller {
 
         $last_id = $this->model->getLastId();
 
+        $friend_img = '';
+        foreach ($all_users as $u) {
+            if ($u['id'] == $friend_id) {
+                $friend_img = $u['image'];
+                break;
+            }
+        }
+
         $this->render('index', [
             'user' => $user,
             'all_users' => $all_users,
             'messages' => $messages,
             'friend_id' => $friend_id,
             'last_id' => $last_id,
-
+            'friend_img' => $friend_img,
         ]);
     }
 
@@ -37,7 +45,6 @@ class ChatController extends Controller {
         if ($this->isPost()) {
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
-           var_dump( $gmt_date = Date::getGmDate());
 
             $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date);
             if ($m_id) {
@@ -45,6 +52,7 @@ class ChatController extends Controller {
                     'm' => [
                         'message' => $message,
                         'date' => $gmt_date,
+                        'image' => '',//todo user image
                         'seen' => '0'
                     ]
                 ]);
@@ -72,11 +80,13 @@ class ChatController extends Controller {
         foreach ($messages as $m) {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
-                    'm' => $m
+                    'm' => $m,
+                    'user' => '', //todo
                 ]);
             } else {
                 $this->renderAjax('friend-message', [
-                    'm' => $m
+                    'm' => $m,
+                    'friend_img' => '',//todo
                 ]);
             }
         }

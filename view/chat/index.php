@@ -4,6 +4,7 @@
             <div class="card mb-sm-3 mb-md-0 contacts_card">
                 <div class="card-header">
                     <div class="input-group">
+<!--                        todo-->
                         <input type="text" placeholder="Search..." name="" class="form-control search">
                         <div class="input-group-prepend">
                             <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
@@ -17,8 +18,8 @@
                                 <a href="?friend=<?= $u['id'] ?>">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <!--                                            --><?php //$img = $u['id'] == $user['id'] ? 'user' : 'user2' ?>
-                                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
+                                            <?php $image = $u['image'] ? $u['image'] : 'user2.png' ?>
+                                            <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                                  class="rounded-circle user_img">
                                             <span class="online_icon"></span>
                                         </div>
@@ -40,12 +41,14 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
+                            <?php $image = $user['image'] ? $user['image'] : 'user.png' ?>
+                            <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
                             <span><?= $user['user_name'] ?></span>
+                            <!-- todo -->
                             <p>1767 Messages</p>
                         </div>
                         <div class="video_cam">

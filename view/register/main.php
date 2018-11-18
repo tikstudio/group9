@@ -40,7 +40,6 @@ defined('SITE_URL') or exit;
 
                         <input type="file" name="img" class="form-control" class="file"/>
                         <?php
-                        //TODO img
                         if (isset($errors['img'])) : ?>
                             <p class="form_error"><?= $errors['img'] ?></p>
                         <?php endif ?>

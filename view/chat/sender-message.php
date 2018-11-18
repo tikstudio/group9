@@ -1,6 +1,7 @@
 <div class="d-flex justify-content-start mb-4">
     <div class="img_cont_msg">
-        <img src="<?= SITE_URL ?>/assets/images/user.png"
+        <?php $image = $user['image'] ? $user['image'] : 'user.png' ?>
+        <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
              class="rounded-circle user_img_ms">
     </div>
     <div class="msg_cotainer">
