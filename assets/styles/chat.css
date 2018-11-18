@@ -264,3 +264,7 @@ body, html {
         margin-bottom: 15px !important;
     }
 }
+
+.text-blue{
+    color: #3f51b5;
+}

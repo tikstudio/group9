@@ -9,7 +9,7 @@ class Register extends Model {
     public function createUser($email, $name, $pass) {
         $pass = $this->passHash($pass);
 
-        $registrated_date = date('Y-m-d h:i:s');
+        $registrated_date = date('Y-m-d H:i:s');
 
         return $this->query("INSERT INTO users(email, user_name, password, registrated_date) 
                           VALUES (:email, :user_name, :password, :date)",

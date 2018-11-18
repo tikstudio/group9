@@ -25,4 +25,52 @@ jQuery(document).ready(function () {
     setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1)
 
 
+    $("#send_message").submit(function (event) {
+        event.preventDefault();
+        var post_url = $(this).attr("action");
+        var request_method = $(this).attr("method");
+        var form_data = $(this).serialize();
+        $.ajax({
+            url: post_url,
+            type: request_method,
+            data: form_data,
+        }).done(function (res) {
+            $('.msg_card_body').append(res)
+            $('[name="message"]').val('')
+            $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+        });
+    });
+
+    $('.msg_card_body').mouseenter(function () {
+        var $board = $(this)
+        if ($board.outerHeight() + $board.scrollTop() >= this.scrollHeight) {
+            var friend = $('[name="friend_id"]').val()
+            $.ajax({
+                url: SITE_URL + '/chat/seen',
+                type: 'get',
+                data: {
+                    friend_id: friend
+                }
+            })
+        }
+    });
+
+    var $board = $('.msg_card_body')
+    $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+
+
+    setInterval(function () {
+        $.ajax({
+            url: SITE_URL + '/chat/new-messages',
+            type: "GET",
+            data: {
+                friend_id: $('[name="friend_id"]').val()
+            }
+        }).done(function (res) {
+            $('.msg_card_body').html(res)
+            $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+        });
+    }, 1000 * 5)
+
+
 });

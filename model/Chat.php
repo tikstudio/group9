@@ -35,4 +35,15 @@ class Chat extends Model {
         );
     }
 
+    public function seen($user_id, $friend_id) {
+        return $this->query(
+            "UPDATE `chat` SET `seen` = '1' 
+                  WHERE `to` = :user_id and `from` = :friend_id and `seen` = '0'",
+            [
+                'user_id' => $user_id,
+                'friend_id' => $friend_id,
+            ]
+        );
+    }
+
 }

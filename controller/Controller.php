@@ -30,6 +30,13 @@ abstract class Controller {
         include './view/footer.php';
     }
 
+
+    protected function renderAjax($view = 'index', $params = []) {
+        extract($params);
+        unset($params);
+        include './view/' . $this->name . '/' . $view . '.php';
+    }
+
     protected function isPost() {
         return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
