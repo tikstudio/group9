@@ -34,6 +34,9 @@ class Chat extends Model {
             ]
         );
     }
+    public function getLastId(){
+
+    }
 
     public function seen($user_id, $friend_id) {
         return $this->query(

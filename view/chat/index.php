@@ -17,8 +17,8 @@
                                 <a href="?friend=<?= $u['id'] ?>">
                                     <div class="d-flex bd-highlight">
                                         <div class="img_cont">
-                                            <?php $img = $u['id'] == $user['id'] ? 'user' : 'user2' ?>
-                                            <img src="<?= SITE_URL ?>/assets/images/<?= $img ?>.png"
+                                            <!--                                            --><?php //$img = $u['id'] == $user['id'] ? 'user' : 'user2' ?>
+                                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                                  class="rounded-circle user_img">
                                             <span class="online_icon"></span>
                                         </div>
@@ -40,7 +40,7 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <img src="<?= SITE_URL ?>/assets/images/user.png"
+                            <img src="<?= SITE_URL ?>/assets/images/<?= $u['image'] ?>"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
@@ -65,11 +65,13 @@
                 </div>
                 <div class="card-body msg_card_body">
                     <?php foreach ($messages as $m) :
+
                         if ($user['id'] === $m['from']) {
                             include 'sender-message.php';
                         } else {
                             include 'friend-message.php';
                         }
+
                     endforeach; ?>
                 </div>
                 <form method="post" id="send_message" action="<?= SITE_URL ?>/chat/send-message" class="card-footer">

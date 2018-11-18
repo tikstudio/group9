@@ -2,8 +2,10 @@
 
 namespace controller;
 
-class RegisterController extends Controller {
-    public function actionIndex() {
+class RegisterController extends Controller
+{
+    public function actionIndex()
+    {
         $errors = [];
         $this->title = "Register";
         $user_model = new \model\User();
@@ -14,6 +16,33 @@ class RegisterController extends Controller {
             $name = isset($_POST['name']) ? $_POST['name'] : null;
             $pass = isset($_POST['pass']) ? $_POST['pass'] : null;
             $re_pass = isset($_POST['re_pass']) ? $_POST['re_pass'] : null;
+            $img = isset($_POST['img']) ? $_POST['img'] : '';
+
+
+            if (isset($_FILES["img"])) {
+                if ($_FILES["img"]["error"] === 0) {
+                    $file_types = [
+                        "image/png" => '.png',
+                        "image/jpeg" => '.jpg',
+                    ];
+                    $file_type = $_FILES["img"]['type'];
+                    if (isset($file_types[$file_type])) {
+//                        $file_ext = $file_types[$file_type];
+                        move_uploaded_file($_FILES["img"]["tmp_name"], "assets/images/" . $_FILES["img"]["name"]);
+                        $img=$_FILES["img"]["name"];
+                    } else {
+                        $errors['img'] = 'not allowed file type';
+                    }
+                } else {
+                    $errors['img'] = 'file upload error';
+                }
+            } else {
+                $errors['img'] = 'file upload error';
+            }
+
+
+//            $img = $_FILES['img']['name'];
+
 
             if ($agree != 'on') {
                 $errors['agree-term'] = 'Pleas Accept Term and Condition';
@@ -21,31 +50,30 @@ class RegisterController extends Controller {
 
             if (!$name) {
                 $errors["name"] = "Name is required";
-            }elseif (!preg_match("/^[a-zA-Z]{3,10}/", htmlspecialchars($name))) {
+            } elseif (!preg_match("/^[a-zA-Z]{3,10}/", htmlspecialchars($name))) {
                 $errors["name"] = "Only letters and white space allowed";
             }
 
             if (!$email) {
                 $errors["email"] = "Email is required";
-            }elseif (!preg_match("/^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/", htmlspecialchars($email))) {
+            } elseif (!preg_match("/^(([^<>()\[\]\\.,;:\s@\"]+(\.[^<>()\[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/", htmlspecialchars($email))) {
                 $errors["email"] = "Invalid email format";
             }
 
 
             if (!$pass) {
                 $errors["pass"] = "Password is required";
-            }elseif(!preg_match("/^[A-Za-z\d]{6,}$/", $pass)) {
+            } elseif (!preg_match("/^[A-Za-z\d]{6,}$/", $pass)) {
                 $errors["pass"] = "Invalid password format";
             }
 
-            if($re_pass !== $pass) {
+            if ($re_pass !== $pass) {
                 $errors['re_pass'] = "Passwords do not match";
             }
 
 
-
             if (empty($errors)) {
-                $user_id = $this->model->createUser($email, $name, $pass);
+                $user_id = $this->model->createUser($email, $name, $pass, $img);
                 if ($user_id) {
                     $this->redirect('login');
                 } else {
@@ -55,7 +83,9 @@ class RegisterController extends Controller {
         }
 
         $this->render('main', [
-            'errors' => $errors
+            'errors' => $errors,
+//            'img' => $img
         ]);
+
     }
 }

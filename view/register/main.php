@@ -1,17 +1,13 @@
 
 <?php
 defined('SITE_URL') or exit;
-//$test = new \model\Register();
-//var_dump($test->getUserByEmail("hambardzum1991@mail.ru"));
-//var_dump($test->getUserById(1));
-
 ?>
 <section class="signup">
     <div class="container">
         <div class="signup-content">
             <div class="signup-form">
                 <h2 class="form-title">Registration</h2>
-                <form action="<?= SITE_URL ?>/register" method="POST" class="register-form" id="register-form">
+                <form action="<?= SITE_URL ?>/register" method="POST" class="register-form" id="register-form" enctype="multipart/form-data">
                     <div class="form-group">
                         <?php if (isset($errors['name'])) : ?>
                             <p class="form_error"><?= $errors['name'] ?></p>
@@ -41,6 +37,13 @@ defined('SITE_URL') or exit;
                         <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
                     </div>
                     <div class="form-group">
+
+                        <input type="file" name="img" class="form-control" class="file"/>
+                        <?php
+                        //TODO img
+                        if (isset($errors['img'])) : ?>
+                            <p class="form_error"><?= $errors['img'] ?></p>
+                        <?php endif ?>
                         <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"/>
                         <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all
                             statements in
@@ -49,6 +52,7 @@ defined('SITE_URL') or exit;
                         <?php if (isset($errors['agree-term'])) : ?>
                             <p class="form_error"><?= $errors['agree-term'] ?></p>
                         <?php endif ?>
+
                     </div>
                     <div class="form-group form-button">
                         <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
