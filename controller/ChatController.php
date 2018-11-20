@@ -81,7 +81,9 @@ class ChatController extends Controller {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
                     'm' => $m,
-                    'user' => '', //todo
+                    'user' => [
+                        'image' => ''
+                    ], //todo
                 ]);
             } else {
                 $this->renderAjax('friend-message', [

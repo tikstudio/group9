@@ -2,10 +2,8 @@
 
 namespace controller;
 
-class RegisterController extends Controller
-{
-    public function actionIndex()
-    {
+class RegisterController extends Controller {
+    public function actionIndex() {
         $errors = [];
         $this->title = "Register";
         $user_model = new \model\User();
@@ -29,7 +27,7 @@ class RegisterController extends Controller
                     if (isset($file_types[$file_type])) {
 //                        $file_ext = $file_types[$file_type];
                         move_uploaded_file($_FILES["img"]["tmp_name"], "assets/images/" . $_FILES["img"]["name"]);
-                        $img=$_FILES["img"]["name"];
+                        $img = $_FILES["img"]["name"];
                     } else {
                         $errors['img'] = 'not allowed file type';
                     }
