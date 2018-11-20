@@ -3,35 +3,47 @@
         <div class="col-md-4 col-xl-3 chat">
             <div class="card mb-sm-3 mb-md-0 contacts_card">
                 <div class="card-header">
-                    <div class="input-group">
-<!--                        todo-->
-                        <input type="text" placeholder="Search..." name="" class="form-control search">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                    <form method="post" id="searching">
+                        <div class="input-group">
+                            <!--                        todo-->
+
+                            <input type="text" placeholder="Search..." name="search-friend" id="search"
+                                   class="form-control search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                            </div>
                         </div>
-                    </div>
+
+                    </form>
+
                 </div>
                 <div class="card-body contacts_body">
-                    <ui class="contacts">
-                        <?php foreach ($all_users as $u) : ?>
-                            <li class="active">
-                                <a href="?friend=<?= $u['id'] ?>">
-                                    <div class="d-flex bd-highlight">
-                                        <div class="img_cont">
-                                            <?php $image = $u['image'] ? $u['image'] : 'user2.png' ?>
-                                            <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
-                                                 class="rounded-circle user_img">
-                                            <span class="online_icon"></span>
-                                        </div>
-                                        <div class="user_info">
-                                            <span><?= $u['user_name'] ?></span>
-                                            <p>Maryam is online</p>
-                                        </div>
+                    <?php
+                    foreach ($all_users as $user) {
+
+                        ?>
+                        <ui class="active">
+                            <a href="?friend=<?= $user['id'] ?>">
+                                <div class="d-flex bd-highlight">
+                                    <div class="img_cont">
+                                        <?php $image = $user['image'] ? $user['image'] : 'user2.png' ?>
+                                        <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
+                                             class="rounded-circle user_img">
+                                        <span class="online_icon"></span>
                                     </div>
-                                </a>
-                            </li>
-                        <?php endforeach; ?>
-                    </ui>
+                                    <div class="user_info">
+                                        <span><?= $user['user_name'] ?></span>
+                                        <p>Maryam is online</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </ui>
+
+                        <?php
+
+                    }
+                    ?>
+
                 </div>
                 <div class="card-footer"></div>
             </div>
@@ -41,15 +53,23 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <?php $image = $user['image'] ? $user['image'] : 'user.png' ?>
+                            <?php
+                            $image = $user['image'] ? $user['image'] : 'user.png' ?>
                             <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
                             <span><?= $user['user_name'] ?></span>
+
                             <!-- todo -->
+
                             <p>1767 Messages</p>
+
+                            <?php
+
+                            ?>
+
                         </div>
                         <div class="video_cam">
                             <span><i class="fas fa-video"></i></span>
@@ -70,6 +90,7 @@
                     <?php foreach ($messages as $m) :
 
                         if ($user['id'] === $m['from']) {
+
                             include 'sender-message.php';
                         } else {
                             include 'friend-message.php';

@@ -22,12 +22,13 @@ jQuery(document).ready(function () {
         return "";
     }
 
-    setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1)
+    setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1);
 
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
         var post_url = $(this).attr("action");
+        console.log(post_url);
         var request_method = $(this).attr("method");
         var form_data = $(this).serialize();
         $.ajax({
@@ -35,8 +36,8 @@ jQuery(document).ready(function () {
             type: request_method,
             data: form_data,
         }).done(function (res) {
-            $('.msg_card_body').append(res)
-            $('[name="message"]').val('')
+            $('.msg_card_body').append(res);
+            $('[name="message"]').val('');
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
     });
@@ -67,10 +68,29 @@ jQuery(document).ready(function () {
                 friend_id: $('[name="friend_id"]').val()
             }
         }).done(function (res) {
-            $('.msg_card_body').html(res)
+            $('.msg_card_body').html(res);
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
-    }, 1000 * 5)
+    }, 1000 * 5);
 
+    $('#search').keyup(function () {
+        event.preventDefault();
+        var txt = $(this).val();
+        // console.log(txt);
+        if (txt === ''){
+            console.log({search:txt});
 
+        } else{
+            $.ajax({
+                url: SITE_URL + '/chat/search',
+                method: "post",
+                data:{search:txt},
+                dataType:"text",
+            }).done(function (data) {
+                $('.contacts_body').html(data);
+            });
+
+        }
+
+    })
 });
