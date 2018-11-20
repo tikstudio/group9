@@ -26,7 +26,6 @@ class ChatController extends Controller
         $last_id = $this->model->getLastId();
 
 
-
         $friend_img = [];
         foreach ($all_users as $u) {
             if ($u['id'] == $friend_id) {
@@ -45,23 +44,29 @@ class ChatController extends Controller
 
         ]);
     }
-//send-message
+
     public function actionSendMessage()
     {
         if ($this->isPost()) {
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
-
-
+            $all_users = $this->model->getAllUsers();
+            if ($all_users) {
+                foreach ($all_users as $user) {
+            if ($this->userId){
+            $image =$user['image'];
+           }
+                }
+            }
 
             $gmt_date = Date::computeDate(['date']);
-            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date);
+            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image);
             if ($m_id) {
                 $this->renderAjax('sender-message', [
                     'm' => [
                         'message' => $message,
                         'date' => $gmt_date,
-                        'image' => [],//todo user image
+                        'image' => $image,//todo user image
                         'seen' => '0'
                     ]
                 ]);
@@ -97,7 +102,7 @@ class ChatController extends Controller
             } else {
                 $this->renderAjax('friend-message', [
                     'm' => $m,
-                    'friend_img' => [],//todo
+                    'friend_img' => '',//todo
                 ]);
             }
         }
@@ -112,7 +117,7 @@ class ChatController extends Controller
         $search_result = $this->model->search($search_user);
         if ($search_result) {
 
-            $this->renderAjax('search-friends',[
+            $this->renderAjax('search-friends', [
                 'search_result' => $search_result,
             ]);
         }

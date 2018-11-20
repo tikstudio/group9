@@ -5,7 +5,6 @@
                 <div class="card-header">
                     <form method="post" id="searching">
                         <div class="input-group">
-                            <!--                        todo-->
 
                             <input type="text" placeholder="Search..." name="search-friend" id="search"
                                    class="form-control search">
@@ -61,15 +60,21 @@
                         </div>
                         <div class="user_info">
                             <span><?= $user['user_name'] ?></span>
-
                             <!-- todo -->
 
-                            <p>1767 Messages</p>
 
-                            <?php
+                            <p><?= count($messages)?> Messages</p>
 
-                            ?>
+                            <?php foreach ($messages as $m) :
 
+
+                                if ($user['id'] === $m['from']) {
+
+                                } else {
+
+                                }
+
+                            endforeach; ?>
                         </div>
                         <div class="video_cam">
                             <span><i class="fas fa-video"></i></span>

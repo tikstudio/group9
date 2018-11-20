@@ -43,9 +43,9 @@ jQuery(document).ready(function () {
     });
 
     $('.msg_card_body').mouseenter(function () {
-        var $board = $(this)
+        var $board = $(this);
         if ($board.outerHeight() + $board.scrollTop() >= this.scrollHeight) {
-            var friend = $('[name="friend_id"]').val()
+            var friend = $('[name="friend_id"]').val();
             $.ajax({
                 url: SITE_URL + '/chat/seen',
                 type: 'get',
@@ -57,7 +57,7 @@ jQuery(document).ready(function () {
     });
 
     var $board = $('.msg_card_body')
-    $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+    $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
 
 
     setInterval(function () {
