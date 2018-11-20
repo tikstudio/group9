@@ -23,10 +23,11 @@ class ChatController extends Controller {
 
         $last_id = $this->model->getLastId();
 
-        $friend_img = '';
+
+        $friend = [];
         foreach ($all_users as $u) {
             if ($u['id'] == $friend_id) {
-                $friend_img = $u['image'];
+                $friend = $u;
                 break;
             }
         }
@@ -37,7 +38,8 @@ class ChatController extends Controller {
             'messages' => $messages,
             'friend_id' => $friend_id,
             'last_id' => $last_id,
-            'friend_img' => $friend_img,
+            'friend' => $friend,
+
         ]);
     }
 
@@ -45,14 +47,23 @@ class ChatController extends Controller {
         if ($this->isPost()) {
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
+            $all_users = $this->model->getAllUsers();
+            if ($all_users) {
+                foreach ($all_users as $user) {
+                    if ($this->userId) {
+                        $image = $user['image'];
+                    }
+                }
+            }
 
-            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date);
+            $gmt_date = Date::computeDate(['date']);
+            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image);
             if ($m_id) {
                 $this->renderAjax('sender-message', [
                     'm' => [
                         'message' => $message,
                         'date' => $gmt_date,
-                        'image' => '',//todo user image
+                        'image' => $image,//todo user image
                         'seen' => '0'
                     ]
                 ]);
@@ -77,22 +88,38 @@ class ChatController extends Controller {
 
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
+        $user_model = new \model\User();
+        $user = $user_model->getUserById($this->userId);
+        $friend = $user_model->getUserById($friend_id);
         foreach ($messages as $m) {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
                     'm' => $m,
-                    'user' => [
-                        'image' => ''
-                    ], //todo
+                    'user' => $user,
                 ]);
             } else {
                 $this->renderAjax('friend-message', [
                     'm' => $m,
-                    'friend_img' => '',//todo
+                    'friend' => $friend,
                 ]);
             }
         }
 
 
     }
+
+    public function actionSearch() {
+        if (!$this->userId) {
+            return;
+        }
+        $search_user = isset($_POST['search']) ? $_POST['search'] : '';
+
+        $search_result = $this->model->search($search_user);
+
+        $this->renderAjax('search-friends', [
+            'search_result' => $search_result,
+        ]);
+    }
+
+
 }

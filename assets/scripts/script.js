@@ -22,12 +22,13 @@ jQuery(document).ready(function () {
         return "";
     }
 
-    setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1)
+    setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1);
 
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
         var post_url = $(this).attr("action");
+        console.log(post_url);
         var request_method = $(this).attr("method");
         var form_data = $(this).serialize();
         $.ajax({
@@ -35,16 +36,16 @@ jQuery(document).ready(function () {
             type: request_method,
             data: form_data,
         }).done(function (res) {
-            $('.msg_card_body').append(res)
-            $('[name="message"]').val('')
+            $('.msg_card_body').append(res);
+            $('[name="message"]').val('');
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
     });
 
     $('.msg_card_body').mouseenter(function () {
-        var $board = $(this)
+        var $board = $(this);
         if ($board.outerHeight() + $board.scrollTop() >= this.scrollHeight) {
-            var friend = $('[name="friend_id"]').val()
+            var friend = $('[name="friend_id"]').val();
             $.ajax({
                 url: SITE_URL + '/chat/seen',
                 type: 'get',
@@ -56,7 +57,7 @@ jQuery(document).ready(function () {
     });
 
     var $board = $('.msg_card_body')
-    $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+    $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
 
 
     setInterval(function () {
@@ -67,10 +68,29 @@ jQuery(document).ready(function () {
                 friend_id: $('[name="friend_id"]').val()
             }
         }).done(function (res) {
-            $('.msg_card_body').html(res)
+            $('.msg_card_body').html(res);
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
-    }, 1000 * 5)
+    }, 1000 * 5);
 
+    var ajax
+    $('#search').keyup(function (ev) {
+        ev.preventDefault();
+        var txt = $(this).val();
+        // console.log(txt);
+        if(ajax){
+            ajax.abort()
+        }
+        ajax = $.ajax({
+            url: SITE_URL + '/chat/search',
+            method: "post",
+            data: {
+                search: txt
+            },
+            dataType: "text",
+        }).done(function (data) {
+            $('.contacts_body').html(data);
+        });
 
+    })
 });

@@ -36,7 +36,8 @@ class Chat extends Model {
             ]
         );
     }
-    public function getLastId(){
+
+    public function getLastId() {
 
     }
 
@@ -51,4 +52,10 @@ class Chat extends Model {
         );
     }
 
+    public function search($search_user) {
+        return $this->getRows("SELECT * FROM users WHERE user_name LIKE :search_user",
+            [
+                'search_user' => '%' . $search_user . '%',
+            ]);
+    }
 }
