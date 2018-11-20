@@ -1,9 +1,6 @@
 <?php
-
-if ($search_result){
-
+if (!empty($search_result)) {
     foreach ($search_result as $user) {
-
         ?>
         <ui class="active">
             <a href="?friend=<?= $user['id'] ?>">
@@ -21,14 +18,11 @@ if ($search_result){
                 </div>
             </a>
         </ui>
-
         <?php
-
     }
-
-}else{
-   return $search_result;
-
+} else {
+    echo 'No Result';
 }
+
 
 ?>

@@ -18,20 +18,20 @@
                 </div>
                 <div class="card-body contacts_body">
                     <?php
-                    foreach ($all_users as $user) {
+                    foreach ($all_users as $u) {
 
                         ?>
                         <ui class="active">
-                            <a href="?friend=<?= $user['id'] ?>">
+                            <a href="?friend=<?= $u['id'] ?>">
                                 <div class="d-flex bd-highlight">
                                     <div class="img_cont">
-                                        <?php $image = $user['image'] ? $user['image'] : 'user2.png' ?>
+                                        <?php $image = $u['image'] ? $u['image'] : 'user2.png' ?>
                                         <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                              class="rounded-circle user_img">
                                         <span class="online_icon"></span>
                                     </div>
                                     <div class="user_info">
-                                        <span><?= $user['user_name'] ?></span>
+                                        <span><?= $u['user_name'] ?></span>
                                         <p>Maryam is online</p>
                                     </div>
                                 </div>
@@ -60,21 +60,9 @@
                         </div>
                         <div class="user_info">
                             <span><?= $user['user_name'] ?></span>
-                            <!-- todo -->
 
+                            <p><?= count($messages) ?> Messages</p>
 
-                            <p><?= count($messages)?> Messages</p>
-
-                            <?php foreach ($messages as $m) :
-
-
-                                if ($user['id'] === $m['from']) {
-
-                                } else {
-
-                                }
-
-                            endforeach; ?>
                         </div>
                         <div class="video_cam">
                             <span><i class="fas fa-video"></i></span>
@@ -93,9 +81,7 @@
                 </div>
                 <div class="card-body msg_card_body">
                     <?php foreach ($messages as $m) :
-
-                        if ($user['id'] === $m['from']) {
-
+                        if ($user['id'] == $m['from']) {
                             include 'sender-message.php';
                         } else {
                             include 'friend-message.php';

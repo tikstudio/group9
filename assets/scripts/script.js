@@ -73,24 +73,24 @@ jQuery(document).ready(function () {
         });
     }, 1000 * 5);
 
-    $('#search').keyup(function () {
-        event.preventDefault();
+    var ajax
+    $('#search').keyup(function (ev) {
+        ev.preventDefault();
         var txt = $(this).val();
         // console.log(txt);
-        if (txt === ''){
-            console.log({search:txt});
-
-        } else{
-            $.ajax({
-                url: SITE_URL + '/chat/search',
-                method: "post",
-                data:{search:txt},
-                dataType:"text",
-            }).done(function (data) {
-                $('.contacts_body').html(data);
-            });
-
+        if(ajax){
+            ajax.abort()
         }
+        ajax = $.ajax({
+            url: SITE_URL + '/chat/search',
+            method: "post",
+            data: {
+                search: txt
+            },
+            dataType: "text",
+        }).done(function (data) {
+            $('.contacts_body').html(data);
+        });
 
     })
 });

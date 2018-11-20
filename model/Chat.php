@@ -5,18 +5,15 @@ namespace model;
 
 use includes\Date;
 
-class Chat extends Model
-{
+class Chat extends Model {
 
 
-    public function getAllUsers()
-    {
+    public function getAllUsers() {
         return $this->getRows("SELECT * FROM users");
     }
 
 
-    public function getMessages($user_id, $friend_id)
-    {
+    public function getMessages($user_id, $friend_id) {
         return $this->getRows(
             "SELECT * FROM chat WHERE 
                   (`from` = :u_id AND `to` = :f_id) or (`from` = :f_id AND `to` = :u_id)
@@ -27,8 +24,7 @@ class Chat extends Model
             ]);
     }
 
-    public function saveMessage($from, $to, $message, $date)
-    {
+    public function saveMessage($from, $to, $message, $date) {
         return $this->query(
             "INSERT INTO `chat` (`from`, `to`, `message`, `date`, `seen`) 
                 VALUES (:from, :to, :message, :date, '0')",
@@ -41,13 +37,11 @@ class Chat extends Model
         );
     }
 
-    public function getLastId()
-    {
+    public function getLastId() {
 
     }
 
-    public function seen($user_id, $friend_id)
-    {
+    public function seen($user_id, $friend_id) {
         return $this->query(
             "UPDATE `chat` SET `seen` = '1' 
                   WHERE `to` = :user_id and `from` = :friend_id and `seen` = '0'",
@@ -58,11 +52,10 @@ class Chat extends Model
         );
     }
 
-    public function search($search_user)
-    {
-        return $this->getRows("SELECT * FROM users WHERE user_name LIKE '%".$search_user."%'",
+    public function search($search_user) {
+        return $this->getRows("SELECT * FROM users WHERE user_name LIKE :search_user",
             [
-                'search_user' => $search_user,
+                'search_user' => '%' . $search_user . '%',
             ]);
     }
 }

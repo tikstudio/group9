@@ -5,11 +5,9 @@ namespace controller;
 use includes\Date;
 use model\User;
 
-class ChatController extends Controller
-{
+class ChatController extends Controller {
 
-    public function actionIndex()
-    {
+    public function actionIndex() {
         if (!$this->userId) {
             $this->redirect('login');
         }
@@ -26,10 +24,10 @@ class ChatController extends Controller
         $last_id = $this->model->getLastId();
 
 
-        $friend_img = [];
+        $friend = [];
         foreach ($all_users as $u) {
             if ($u['id'] == $friend_id) {
-                $friend_img = $u['image'];
+                $friend = $u;
                 break;
             }
         }
@@ -40,22 +38,21 @@ class ChatController extends Controller
             'messages' => $messages,
             'friend_id' => $friend_id,
             'last_id' => $last_id,
-            'friend_img' => $friend_img,
+            'friend' => $friend,
 
         ]);
     }
 
-    public function actionSendMessage()
-    {
+    public function actionSendMessage() {
         if ($this->isPost()) {
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
             $all_users = $this->model->getAllUsers();
             if ($all_users) {
                 foreach ($all_users as $user) {
-            if ($this->userId){
-            $image =$user['image'];
-           }
+                    if ($this->userId) {
+                        $image = $user['image'];
+                    }
                 }
             }
 
@@ -79,30 +76,31 @@ class ChatController extends Controller
         }
     }
 
-    public function actionSeen()
-    {
+    public function actionSeen() {
         $friend_id = isset($_GET['friend_id']) ? (int)$_GET['friend_id'] : null;
         if ($friend_id) {
             $this->model->seen($this->userId, $friend_id);
         }
     }
 
-    public function actionNewMessages()
-    {
+    public function actionNewMessages() {
         $friend_id = isset($_GET['friend_id']) ? (int)$_GET['friend_id'] : null;
 
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
+        $user_model = new \model\User();
+        $user = $user_model->getUserById($this->userId);
+        $friend = $user_model->getUserById($friend_id);
         foreach ($messages as $m) {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
                     'm' => $m,
-                    'user' => '', //todo
+                    'user' => $user,
                 ]);
             } else {
                 $this->renderAjax('friend-message', [
                     'm' => $m,
-                    'friend_img' => '',//todo
+                    'friend' => $friend,
                 ]);
             }
         }
@@ -110,17 +108,17 @@ class ChatController extends Controller
 
     }
 
-    public function actionSearch()
-    {
-        $search_user = $_POST['search'];
+    public function actionSearch() {
+        if (!$this->userId) {
+            return;
+        }
+        $search_user = isset($_POST['search']) ? $_POST['search'] : '';
 
         $search_result = $this->model->search($search_user);
-        if ($search_result) {
 
-            $this->renderAjax('search-friends', [
-                'search_result' => $search_result,
-            ]);
-        }
+        $this->renderAjax('search-friends', [
+            'search_result' => $search_result,
+        ]);
     }
 
 
