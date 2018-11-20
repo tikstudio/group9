@@ -268,3 +268,13 @@ body, html {
 .text-blue {
     color: #3f51b5;
 }
+
+.attach_btn{
+    position: static;
+    transform: none;
+
+}
+
+.attach_btn input{
+    display: none;
+}

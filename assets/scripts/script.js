@@ -24,17 +24,30 @@ jQuery(document).ready(function () {
 
     setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1);
 
+    var files = []
+    $('[type="file"]').change(function (ev) {
+        files = ev.target.files
+    })
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
         var post_url = $(this).attr("action");
-        console.log(post_url);
-        var request_method = $(this).attr("method");
-        var form_data = $(this).serialize();
+
+        var data = new FormData();
+        $.each(files, function (key, value) {
+            data.append(key, value);
+        });
+
+        data.append('message', $('[name="message"]').val())
+        data.append('friend_id', $('[name="friend_id"]').val())
+
+
         $.ajax({
             url: post_url,
             type: request_method,
-            data: form_data,
+            data: data,
+            processData: false, // Don't process the files
+            contentType: false,
         }).done(function (res) {
             $('.msg_card_body').append(res);
             $('[name="message"]').val('');
@@ -78,7 +91,7 @@ jQuery(document).ready(function () {
         ev.preventDefault();
         var txt = $(this).val();
         // console.log(txt);
-        if(ajax){
+        if (ajax) {
             ajax.abort()
         }
         ajax = $.ajax({

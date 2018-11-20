@@ -45,6 +45,7 @@ class ChatController extends Controller {
 
     public function actionSendMessage() {
         if ($this->isPost()) {
+            var_dump($_FILES);exit;//todo
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
             $all_users = $this->model->getAllUsers();
@@ -91,6 +92,7 @@ class ChatController extends Controller {
         $user_model = new \model\User();
         $user = $user_model->getUserById($this->userId);
         $friend = $user_model->getUserById($friend_id);
+
         foreach ($messages as $m) {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
