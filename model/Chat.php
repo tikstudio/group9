@@ -51,4 +51,11 @@ class Chat extends Model {
         );
     }
 
+    public function searchUser($search_val) {
+            return $this->getRows("SELECT * FROM users WHERE user_name LIKE '% :search_val%'",[
+                'search_val' => $search_val
+            ]);
+
+    }
+
 }

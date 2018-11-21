@@ -93,4 +93,16 @@ class ChatController extends Controller {
 
 
     }
+
+    public function actionSearchingFriends()
+    {
+        $search_user = isset($_POST['search-friend']) ? $_POST['search-friend'] : null;
+
+        $search_result = $this->model->search($search_user);
+        if ($search_result) {
+            $this->renderAjax('search-friends',[
+                'user_name' => $search_user
+            ]);
+        }
+    }
 }

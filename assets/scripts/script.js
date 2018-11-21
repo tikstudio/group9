@@ -72,5 +72,40 @@ jQuery(document).ready(function () {
         });
     }, 1000 * 5)
 
-
 });
+
+var input = document.getElementById("search");
+var li = document.querySelectorAll(".active");
+var spanName = document.querySelectorAll(".user-name");
+var firstDiv = document.querySelector(".card-body");
+var ul = document.querySelector(".contacts");
+var p = document.createElement("p");
+p.textContent = "No results";
+p.id = 'p';
+p.style.color = "black";
+
+input.onkeyup =  function () {
+    var a =  input.value.toUpperCase();
+    var pTag = document.querySelector('#p');
+
+    if(pTag){
+        pTag.remove();
+    }
+
+    var q = true;
+
+    for (var i = 0; i < li.length; i++) {
+        if (spanName[i].innerText.toUpperCase().indexOf(a) !== -1) {
+            li[i].style.display = "block";
+            q = false;
+
+        } else {
+            li[i].style.display = "none";
+
+        }
+    }
+
+    if(q){
+        firstDiv.insertBefore(p,ul);
+    }
+};
