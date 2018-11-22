@@ -28,7 +28,7 @@ jQuery(document).ready(function () {
     $("#send_message").submit(function (event) {
         event.preventDefault();
         var post_url = $(this).attr("action");
-        console.log(post_url);
+        // console.log(post_url);
         var request_method = $(this).attr("method");
         var form_data = $(this).serialize();
         $.ajax({
@@ -73,7 +73,7 @@ jQuery(document).ready(function () {
         });
     }, 1000 * 5);
 
-    var ajax
+    var ajax;
     $('#search').keyup(function (ev) {
         ev.preventDefault();
         var txt = $(this).val();
@@ -91,6 +91,5 @@ jQuery(document).ready(function () {
         }).done(function (data) {
             $('.contacts_body').html(data);
         });
-
     })
 });

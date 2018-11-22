@@ -92,7 +92,9 @@
                 <form method="post" id="send_message" action="<?= SITE_URL ?>/chat/send-message" class="card-footer">
                     <div class="input-group">
                         <div class="input-group-append">
-                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                            <label for="file"> </label>
+                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i><input type="file" name="uploads" id="file_upload"></span>
+
                         </div>
                         <textarea name="message" class="form-control type_msg"
                                   placeholder="Type your message..."></textarea>

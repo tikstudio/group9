@@ -25,7 +25,6 @@ class RegisterController extends Controller {
                     ];
                     $file_type = $_FILES["img"]['type'];
                     if (isset($file_types[$file_type])) {
-//                        $file_ext = $file_types[$file_type];
                         move_uploaded_file($_FILES["img"]["tmp_name"], "assets/images/" . $_FILES["img"]["name"]);
                         $img = $_FILES["img"]["name"];
                     } else {
@@ -37,9 +36,6 @@ class RegisterController extends Controller {
             } else {
                 $errors['img'] = 'file upload error';
             }
-
-
-//            $img = $_FILES['img']['name'];
 
 
             if ($agree != 'on') {
@@ -82,7 +78,6 @@ class RegisterController extends Controller {
 
         $this->render('main', [
             'errors' => $errors,
-//            'img' => $img
         ]);
 
     }
