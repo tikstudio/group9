@@ -14,6 +14,7 @@ class Chat extends Model {
 
 
     public function getMessages($user_id, $friend_id) {
+
         return $this->getRows(
             "SELECT * FROM chat WHERE 
                   (`from` = :u_id AND `to` = :f_id) or (`from` = :f_id AND `to` = :u_id)
@@ -24,21 +25,18 @@ class Chat extends Model {
             ]);
     }
 
-    public function saveMessage($from, $to, $message, $date) {
+    public function saveMessage($from, $to, $message, $date, $uploads) {
         return $this->query(
-            "INSERT INTO `chat` (`from`, `to`, `message`, `date`, `seen`) 
-                VALUES (:from, :to, :message, :date, '0')",
+            "INSERT INTO `chat` (`from`, `to`, `message`, `date`, `seen`, `uploads`) 
+                VALUES (:from, :to, :message, :date, '0', :file)",
             [
                 'from' => $from,
                 'to' => $to,
                 'message' => $message,
+                'uploads' => $uploads,
                 'date' => Date::getGmDate($date),
             ]
         );
-    }
-
-    public function getLastId() {
-
     }
 
     public function seen($user_id, $friend_id) {
@@ -50,6 +48,14 @@ class Chat extends Model {
                 'friend_id' => $friend_id,
             ]
         );
+    }
+    public function lastVisit($last, $date){
+
+        return $this->query("UPDATE `users` SET `last_visit` =:date WHERE id=:last",[
+            'user_id' => $last,
+            'date' => $date
+
+        ]);
     }
 
     public function search($search_user) {

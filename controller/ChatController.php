@@ -21,7 +21,6 @@ class ChatController extends Controller {
 
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
-        $last_id = $this->model->getLastId();
 
 
         $friend = [];
@@ -37,7 +36,6 @@ class ChatController extends Controller {
             'all_users' => $all_users,
             'messages' => $messages,
             'friend_id' => $friend_id,
-            'last_id' => $last_id,
             'friend' => $friend,
 
         ]);
@@ -56,18 +54,40 @@ class ChatController extends Controller {
                     }
                 }
             }
+            $uploads = isset($_POST['uploads']) ? $_POST['uploads'] : '';
+
+            if (isset($_FILES["uploads"])) {
+                if ($_FILES["uploads"]["error"] === 0) {
+                    $file_types = [
+                        "image/png" => '.png',
+                        "image/jpeg" => '.jpg',
+                        "application/pdf" => '.pdf',
+//                        "video/webm" => '.webm',
+//                        "video/mp4" => '.mp4',
+//                        "video/ogv" => '.ogv',
+                    ];
+                    $file_type = $_FILES["uploads"]['type'];
+                    if (isset($file_types[$file_type])) {
+                        move_uploaded_file($_FILES["file"]["tmp_name"], "assets/images/uploads/" . $_FILES["uploads"]["name"]);
+                        $uploads = $_FILES["uploads"]["name"];
+                    }
+                }
+            }
 
             $gmt_date = Date::computeDate(['date']);
-            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image);
+            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image,$uploads);
             if ($m_id) {
+                var_dump($m_id);
                 $this->renderAjax('sender-message', [
                     'm' => [
                         'message' => $message,
                         'date' => $gmt_date,
-                        'image' => $image,//todo user image
+                        'image' => $image,
+                        'uploads'=> $uploads,
                         'seen' => '0'
                     ]
                 ]);
+
             } else {
                 echo 'error';
             }
@@ -87,10 +107,15 @@ class ChatController extends Controller {
     public function actionNewMessages() {
         $friend_id = isset($_GET['friend_id']) ? (int)$_GET['friend_id'] : null;
 
+
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
         $user_model = new \model\User();
         $user = $user_model->getUserById($this->userId);
+        $last = ($user['id']);
+        $date = strtotime(date("Y-m-d H:i:s"));
+        $active_user = $this->model->lastVisit($last, $date);
+
         $friend = $user_model->getUserById($friend_id);
 
         foreach ($messages as $m) {
