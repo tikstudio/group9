@@ -19,20 +19,19 @@
                 <div class="card-body contacts_body">
                     <?php
                     foreach ($all_users as $u) {
-
+                        $active = strtotime($u['last_visit']) + 60 > time() ? 'online_icon' : 'online_icon offline';
                         ?>
-                        <ui class="active">
+                        <ui class="active" id="user_<?= $u['id'] ?>">
                             <a href="?friend=<?= $u['id'] ?>">
                                 <div class="d-flex bd-highlight">
                                     <div class="img_cont">
                                         <?php $image = $u['image'] ? $u['image'] : 'user2.png' ?>
                                         <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                              class="rounded-circle user_img">
-                                        <span class="online_icon"></span>
+                                        <span class="<?= $active ?>"></span>
                                     </div>
                                     <div class="user_info">
                                         <span><?= $u['user_name'] ?></span>
-                                        <p>Maryam is online</p>
                                     </div>
                                 </div>
                             </a>

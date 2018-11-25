@@ -25,16 +25,16 @@ class Chat extends Model {
             ]);
     }
 
-    public function saveMessage($from, $to, $message, $date, $uploads) {
+    public function saveMessage($from, $to, $message, $attachment) {
         return $this->query(
-            "INSERT INTO `chat` (`from`, `to`, `message`, `date`, `seen`, `uploads`) 
-                VALUES (:from, :to, :message, :date, '0', :file)",
+            "INSERT INTO `chat` (`from`, `to`, `message`, `date`, `seen`, `attachment`) 
+                VALUES (:from, :to, :message, :date, '0', :attachment)",
             [
                 'from' => $from,
                 'to' => $to,
                 'message' => $message,
-                'uploads' => $uploads,
-                'date' => Date::getGmDate($date),
+                'attachment' => $attachment,
+                'date' => Date::getGmDate(),
             ]
         );
     }
@@ -49,12 +49,12 @@ class Chat extends Model {
             ]
         );
     }
-    public function lastVisit($last, $date){
 
-        return $this->query("UPDATE `users` SET `last_visit` =:date WHERE id=:last",[
-            'user_id' => $last,
+    public function lastVisit($id, $date) {
+
+        return $this->query("UPDATE `users` SET `last_visit` = :date WHERE id=:user_id", [
+            'user_id' => $id,
             'date' => $date
-
         ]);
     }
 

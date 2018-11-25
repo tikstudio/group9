@@ -24,9 +24,9 @@ jQuery(document).ready(function () {
 
     setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1);
 
-    var files = []
+    var file
     $('[type="file"]').change(function (ev) {
-        files = ev.target.files
+        file = ev.target.files[0]
     })
 
     $("#send_message").submit(function (event) {
@@ -34,17 +34,14 @@ jQuery(document).ready(function () {
         var post_url = $(this).attr("action");
 
         var data = new FormData();
-        $.each(files, function (key, value) {
-            data.append(key, value);
-        });
 
+        data.append('file', file);
         data.append('message', $('[name="message"]').val())
         data.append('friend_id', $('[name="friend_id"]').val())
 
-
         $.ajax({
             url: post_url,
-            type: request_method,
+            type: "POST",
             data: data,
             processData: false, // Don't process the files
             contentType: false,
@@ -73,18 +70,28 @@ jQuery(document).ready(function () {
     $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
 
 
-    setInterval(function () {
-        $.ajax({
-            url: SITE_URL + '/chat/new-messages',
-            type: "GET",
-            data: {
-                friend_id: $('[name="friend_id"]').val()
-            }
-        }).done(function (res) {
-            $('.msg_card_body').html(res);
-            $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
-        });
-    }, 1000 * 5);
+    // setInterval(function () {
+    //     $.ajax({
+    //         url: SITE_URL + '/chat/new-messages',
+    //         type: "GET",
+    //         data: {
+    //             friend_id: $('[name="friend_id"]').val()
+    //         },
+    //         dataType: 'json'
+    //     }).done(function (res) {
+    //         $('.msg_card_body').html(res.new_message_html);
+    //         for (var id in res.user_list) {
+    //             var status = res.user_list[id];
+    //             if (status) {
+    //                 $('#user_' + id).find('.online_icon').removeClass('offline')
+    //             } else {
+    //                 $('#user_' + id).find('.online_icon').addClass('offline')
+    //             }
+    //         }
+    //
+    //         $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+    //     });
+    // }, 1000 * 5);
 
     var ajax
     $('#search').keyup(function (ev) {

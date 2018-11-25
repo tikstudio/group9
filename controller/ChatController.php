@@ -22,7 +22,6 @@ class ChatController extends Controller {
         $messages = $this->model->getMessages($this->userId, $friend_id);
 
 
-
         $friend = [];
         foreach ($all_users as $u) {
             if ($u['id'] == $friend_id) {
@@ -43,10 +42,10 @@ class ChatController extends Controller {
 
     public function actionSendMessage() {
         if ($this->isPost()) {
-            var_dump($_FILES);exit;//todo
             $message = isset($_POST['message']) ? htmlspecialchars($_POST['message']) : '';
             $friend_id = isset($_POST['friend_id']) ? (int)$_POST['friend_id'] : null;
             $all_users = $this->model->getAllUsers();
+            $image = '';
             if ($all_users) {
                 foreach ($all_users as $user) {
                     if ($this->userId) {
@@ -54,37 +53,38 @@ class ChatController extends Controller {
                     }
                 }
             }
-            $uploads = isset($_POST['uploads']) ? $_POST['uploads'] : '';
-
-            if (isset($_FILES["uploads"])) {
-                if ($_FILES["uploads"]["error"] === 0) {
+            $file_name = '';
+            if (isset($_FILES["file"])) {
+                if ($_FILES["file"]["error"] === 0) {
                     $file_types = [
                         "image/png" => '.png',
                         "image/jpeg" => '.jpg',
                         "application/pdf" => '.pdf',
-//                        "video/webm" => '.webm',
-//                        "video/mp4" => '.mp4',
-//                        "video/ogv" => '.ogv',
+                        "video/webm" => '.webm',
+                        "video/mp4" => '.mp4',
+                        "video/ogv" => '.ogv',
                     ];
-                    $file_type = $_FILES["uploads"]['type'];
+                    $file_type = $_FILES["file"]['type'];
                     if (isset($file_types[$file_type])) {
-                        move_uploaded_file($_FILES["file"]["tmp_name"], "assets/images/uploads/" . $_FILES["uploads"]["name"]);
-                        $uploads = $_FILES["uploads"]["name"];
+                        $file_name = uniqid() . $file_types[$file_type];
+                        move_uploaded_file(
+                            $_FILES["file"]["tmp_name"],
+                            ROOT_DIR . "assets/images/uploads/" . $file_name);
                     }
                 }
             }
 
-            $gmt_date = Date::computeDate(['date']);
-            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image,$uploads);
+            $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $file_name);
             if ($m_id) {
-                var_dump($m_id);
                 $this->renderAjax('sender-message', [
                     'm' => [
                         'message' => $message,
-                        'date' => $gmt_date,
-                        'image' => $image,
-                        'uploads'=> $uploads,
+                        'date' => date('Y-m-d H:i:s'),
+                        'file_name' => $file_name,
                         'seen' => '0'
+                    ],
+                    'user' => [
+                        'image' => $image,
                     ]
                 ]);
 
@@ -112,12 +112,20 @@ class ChatController extends Controller {
 
         $user_model = new \model\User();
         $user = $user_model->getUserById($this->userId);
-        $last = ($user['id']);
-        $date = strtotime(date("Y-m-d H:i:s"));
-        $active_user = $this->model->lastVisit($last, $date);
+        $date = date("Y-m-d H:i:s");
+        $this->model->lastVisit($this->userId, $date);
 
         $friend = $user_model->getUserById($friend_id);
 
+        $all_users = $this->model->getAllUsers();
+
+
+        $user_list = [];
+        foreach ($all_users as $u) {
+            $user_list[$u['id']] = strtotime($u['last_visit']) + 60 > time();
+        }
+
+        ob_start();
         foreach ($messages as $m) {
             if ($this->userId === $m['from']) {
                 $this->renderAjax('sender-message', [
@@ -131,6 +139,14 @@ class ChatController extends Controller {
                 ]);
             }
         }
+        $html = ob_get_clean();
+
+        $res = [
+            'new_message_html' => $html,
+            'user_list' => $user_list,
+        ];
+
+        exit(json_encode($res));
 
 
     }
@@ -150,3 +166,10 @@ class ChatController extends Controller {
 
 
 }
+
+
+?>
+
+
+
+
