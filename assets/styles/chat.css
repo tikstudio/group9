@@ -267,4 +267,26 @@ body, html {
 
 .text-blue {
     color: #3f51b5;
+<<<<<<< Updated upstream
+=======
+}
+
+.attach_btn{
+    position: static;
+    transform: none;
+
+}
+
+.attach_btn input{
+    display: none;
+}
+.uploads{
+    width: 200px;
+    height: 200px;
+}
+.uploads img{
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+>>>>>>> Stashed changes
 }

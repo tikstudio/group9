@@ -55,6 +55,31 @@ class ChatController extends Controller {
                     }
                 }
             }
+<<<<<<< Updated upstream
+=======
+            $file_name = '';
+            if (isset($_FILES["file"])) {
+                if ($_FILES["file"]["error"] === 0) {
+                    $file_types = [
+                        "image/png" => '.png',
+                        "image/jpeg" => '.jpg',
+                        "application/pdf" => '.pdf',
+                        "video/webm" => '.webm',
+                        "video/mp4" => '.mp4',
+                        "video/ogv" => '.ogv',
+                    ];
+                    $file_type = $_FILES["file"]['type'];
+
+                    if (isset($file_types[$file_type])) {
+
+                        $file_name = uniqid() . $file_types[$file_type];
+                        move_uploaded_file(
+                            $_FILES["file"]["tmp_name"],
+                            "assets/images/uploads/" . $file_name);
+                    }
+                }
+            }
+>>>>>>> Stashed changes
 
             $gmt_date = Date::computeDate(['date']);
             $m_id = $this->model->saveMessage($this->userId, $friend_id, $message, $gmt_date, $image);
