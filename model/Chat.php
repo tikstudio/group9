@@ -13,13 +13,15 @@ class Chat extends Model {
     }
 
 
-    public function getMessages($user_id, $friend_id) {
+    public function getMessages($user_id, $friend_id, $start_id = 0) {
 
         return $this->getRows(
             "SELECT * FROM chat WHERE 
-                  (`from` = :u_id AND `to` = :f_id) or (`from` = :f_id AND `to` = :u_id)
+                  ((`from` = :u_id AND `to` = :f_id) or (`from` = :f_id AND `to` = :u_id))
+                  AND id > :start_id
                   ORDER BY date",
             [
+                'start_id' => [$start_id, 'int'],
                 'u_id' => [$user_id, 'int'],
                 'f_id' => [$friend_id, 'int']
             ]);
@@ -63,5 +65,13 @@ class Chat extends Model {
             [
                 'search_user' => '%' . $search_user . '%',
             ]);
+    }
+
+    public function userCanSeeAttachment($id, $attachment) {
+        return (bool)$this->getVar("SELECT id from chat where attachment = :attachment
+                          AND (`from` = :id or `to` = :id)", [
+            'id' => [$id, 'int'],
+            'attachment' => $attachment,
+        ]);
     }
 }

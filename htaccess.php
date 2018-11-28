@@ -8,6 +8,7 @@ $data = "<IfModule mod_rewrite.c>" . PHP_EOL .
     "RewriteCond %{REQUEST_FILENAME} !-f" . PHP_EOL .
     "RewriteCond %{REQUEST_FILENAME} !-d" . PHP_EOL .
     "RewriteRule " . $file . " [L]" . PHP_EOL .
-    "</IfModule>";
+    "</IfModule>" . PHP_EOL .
+    "Options -Indexes";
 file_put_contents('.htaccess', $data);
 echo 'OK';

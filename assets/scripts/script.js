@@ -1,4 +1,6 @@
 jQuery(document).ready(function () {
+    $('[name="message"]').emojioneArea();
+
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -47,7 +49,7 @@ jQuery(document).ready(function () {
             contentType: false,
         }).done(function (res) {
             $('.msg_card_body').append(res);
-            $('[name="message"]').val('');
+            $('[name="message"]').val('').change();
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
     });
@@ -75,11 +77,12 @@ jQuery(document).ready(function () {
             url: SITE_URL + '/chat/new-messages',
             type: "GET",
             data: {
-                friend_id: $('[name="friend_id"]').val()
+                friend_id: $('[name="friend_id"]').val(),
+                last_message_id: $('.msg_card_body .d-flex').last().attr('data-id')
             },
             dataType: 'json'
         }).done(function (res) {
-            $('.msg_card_body').html(res.new_message_html);
+            $('.msg_card_body').append(res.new_message_html);
             for (var id in res.user_list) {
                 var status = res.user_list[id];
                 if (status) {

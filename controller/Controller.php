@@ -12,10 +12,13 @@ abstract class Controller {
 
     public function __construct() {
         $model_name = preg_replace('~controller\\\(.*)Controller~is', '$1', get_called_class());
-        $this->modelName = "model\\$model_name";
-        $this->name = strtolower($model_name);
+        if (class_exists("model\\$model_name")) {
+            $this->modelName = "model\\$model_name";
+            $this->name = strtolower($model_name);
 
-        $this->model = new $this->modelName();
+            $this->model = new $this->modelName();
+        }
+
 
         $this->userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
 

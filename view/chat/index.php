@@ -4,7 +4,7 @@
             <div class="card mb-sm-3 mb-md-0 contacts_card">
                 <div class="card-header">
                     <form method="post" id="searching">
-                        <div class="input-group">
+                        <div class="input-group ">
 
                             <input type="text" placeholder="Search..." name="search-friend" id="search"
                                    class="form-control search">

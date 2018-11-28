@@ -48,7 +48,7 @@ class ChatController extends Controller {
             $image = '';
             if ($all_users) {
                 foreach ($all_users as $user) {
-                    if ($this->userId) {
+                    if ($this->userId == $user['id']) {
                         $image = $user['image'];
                     }
                 }
@@ -65,11 +65,12 @@ class ChatController extends Controller {
                         "video/ogv" => '.ogv',
                     ];
                     $file_type = $_FILES["file"]['type'];
+
                     if (isset($file_types[$file_type])) {
                         $file_name = uniqid() . $file_types[$file_type];
                         move_uploaded_file(
                             $_FILES["file"]["tmp_name"],
-                            ROOT_DIR . "assets/images/uploads/" . $file_name);
+                            "assets/images/uploads/" . $file_name);
                     }
                 }
             }
@@ -80,8 +81,9 @@ class ChatController extends Controller {
                     'm' => [
                         'message' => $message,
                         'date' => date('Y-m-d H:i:s'),
-                        'file_name' => $file_name,
-                        'seen' => '0'
+                        'attachment' => $file_name,
+                        'seen' => '0',
+                        'id' => $m_id,
                     ],
                     'user' => [
                         'image' => $image,
@@ -106,9 +108,9 @@ class ChatController extends Controller {
 
     public function actionNewMessages() {
         $friend_id = isset($_GET['friend_id']) ? (int)$_GET['friend_id'] : null;
+        $last_message_id = isset($_GET['last_message_id']) ? (int)$_GET['last_message_id'] : 0;
 
-
-        $messages = $this->model->getMessages($this->userId, $friend_id);
+        $messages = $this->model->getMessages($this->userId, $friend_id, $last_message_id);
 
         $user_model = new \model\User();
         $user = $user_model->getUserById($this->userId);

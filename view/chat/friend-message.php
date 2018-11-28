@@ -1,6 +1,10 @@
-<div class="d-flex justify-content-end mb-4">
+<div class="d-flex justify-content-end mb-4"  data-id="<?= $m['id'] ?>">
     <div class="msg_cotainer_send">
         <?= $m['message'] ?>
+        <?php
+        $attachment = isset($m['attachment']) ? $m['attachment'] : '';
+        new \includes\Attachment($attachment)
+        ?>
         <span class="msg_time_send">
             <?= \includes\Date::computeDate($m['date']) ?>
         </span>
