@@ -70,28 +70,28 @@ jQuery(document).ready(function () {
     $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
 
 
-    // setInterval(function () {
-    //     $.ajax({
-    //         url: SITE_URL + '/chat/new-messages',
-    //         type: "GET",
-    //         data: {
-    //             friend_id: $('[name="friend_id"]').val()
-    //         },
-    //         dataType: 'json'
-    //     }).done(function (res) {
-    //         $('.msg_card_body').html(res.new_message_html);
-    //         for (var id in res.user_list) {
-    //             var status = res.user_list[id];
-    //             if (status) {
-    //                 $('#user_' + id).find('.online_icon').removeClass('offline')
-    //             } else {
-    //                 $('#user_' + id).find('.online_icon').addClass('offline')
-    //             }
-    //         }
-    //
-    //         $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
-    //     });
-    // }, 1000 * 5);
+    setInterval(function () {
+        $.ajax({
+            url: SITE_URL + '/chat/new-messages',
+            type: "GET",
+            data: {
+                friend_id: $('[name="friend_id"]').val()
+            },
+            dataType: 'json'
+        }).done(function (res) {
+            $('.msg_card_body').html(res.new_message_html);
+            for (var id in res.user_list) {
+                var status = res.user_list[id];
+                if (status) {
+                    $('#user_' + id).find('.online_icon').removeClass('offline')
+                } else {
+                    $('#user_' + id).find('.online_icon').addClass('offline')
+                }
+            }
+
+            $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+        });
+    }, 1000 * 5);
 
     var ajax
     $('#search').keyup(function (ev) {
