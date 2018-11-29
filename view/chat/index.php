@@ -3,14 +3,28 @@
         <div class="col-md-4 col-xl-3 chat">
             <div class="card mb-sm-3 mb-md-0 contacts_card">
                 <div class="card-header">
+<<<<<<< HEAD
                     <div class="input-group" id="input-group">
                         <input id="search" type="text" placeholder="Search..." name="search" class="form-control search">
                         <div class="input-group-prepend">
                             <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+=======
+                    <form method="post" id="searching">
+                        <div class="input-group ">
+
+                            <input type="text" placeholder="Search..." name="search-friend" id="search"
+                                   class="form-control search">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+                            </div>
+>>>>>>> f4a5aebe55cefdd30e697314a7188b1f1bec1fbd
                         </div>
-                    </div>
+
+                    </form>
+
                 </div>
                 <div class="card-body contacts_body">
+<<<<<<< HEAD
                     <ul class="contacts">
                         <?php foreach ($all_users as $u) : ?>
                             <li class="active">
@@ -31,6 +45,33 @@
                             </li>
                         <?php endforeach; ?>
                     </ul>
+=======
+                    <?php
+                    foreach ($all_users as $u) {
+                        $active = strtotime($u['last_visit']) + 60 > time() ? 'online_icon' : 'online_icon offline';
+                        ?>
+                        <ui class="active" id="user_<?= $u['id'] ?>">
+                            <a href="?friend=<?= $u['id'] ?>">
+                                <div class="d-flex bd-highlight">
+                                    <div class="img_cont">
+                                        <?php $image = $u['image'] ? $u['image'] : 'user2.png' ?>
+                                        <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
+                                             class="rounded-circle user_img">
+                                        <span class="<?= $active ?>"></span>
+                                    </div>
+                                    <div class="user_info">
+                                        <span><?= $u['user_name'] ?></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </ui>
+
+                        <?php
+
+                    }
+                    ?>
+
+>>>>>>> f4a5aebe55cefdd30e697314a7188b1f1bec1fbd
                 </div>
                 <div class="card-footer"></div>
             </div>
@@ -40,14 +81,21 @@
                 <div class="card-header msg_head">
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
-                            <?php $image = $user['image'] ? $user['image'] : 'user.png' ?>
+                            <?php
+                            $image = $user['image'] ? $user['image'] : 'user.png' ?>
                             <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
                                  class="rounded-circle user_img">
                             <span class="online_icon"></span>
                         </div>
                         <div class="user_info">
                             <span><?= $user['user_name'] ?></span>
+<<<<<<< HEAD
                             <p><?= count($messages) ?> Messages</p>
+=======
+
+                            <p><?= count($messages) ?> Messages</p>
+
+>>>>>>> f4a5aebe55cefdd30e697314a7188b1f1bec1fbd
                         </div>
                         <div class="video_cam">
                             <span><i class="fas fa-video"></i></span>
@@ -66,8 +114,7 @@
                 </div>
                 <div class="card-body msg_card_body">
                     <?php foreach ($messages as $m) :
-
-                        if ($user['id'] === $m['from']) {
+                        if ($user['id'] == $m['from']) {
                             include 'sender-message.php';
                         } else {
                             include 'friend-message.php';
@@ -78,7 +125,10 @@
                 <form method="post" id="send_message" action="<?= SITE_URL ?>/chat/send-message" class="card-footer">
                     <div class="input-group">
                         <div class="input-group-append">
-                            <span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+                            <label class="input-group-text attach_btn">
+                                <i class="fas fa-paperclip"></i>
+                                <input name="file" type="file">
+                            </label>
                         </div>
                         <textarea name="message" class="form-control type_msg"
                                   placeholder="Type your message..."></textarea>

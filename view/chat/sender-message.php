@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-start mb-4">
+<div class="d-flex justify-content-start mb-4" data-id="<?= $m['id'] ?>">
     <div class="img_cont_msg">
         <?php $image = $user['image'] ? $user['image'] : 'user.png' ?>
         <img src="<?= SITE_URL ?>/assets/images/<?= $image ?>"
@@ -6,6 +6,11 @@
     </div>
     <div class="msg_cotainer">
         <?= $m['message'] ?>
+
+        <?php
+        $attachment = isset($m['attachment']) ? $m['attachment'] : '';
+        new \includes\Attachment($attachment)
+        ?>
         <span class="msg_time">
             <?= \includes\Date::computeDate($m['date']) ?>
             <?php if ($m['seen'] === '1') : ?>

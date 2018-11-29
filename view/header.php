@@ -17,7 +17,9 @@
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/fontawesome.min.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/bootstrap.min.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/style.css">
+    <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/emojionearea.min.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/chat.css">
+
 </head>
 <body>
 

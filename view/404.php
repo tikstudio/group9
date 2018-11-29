@@ -19,6 +19,22 @@
         404
     </h1>
 
+    <div class="menu" id="signin">
+       <div id="home" class="list">
+           <a href="/home">Home</a>
+       </div>
+       <div>
+           <a href="/contact_us">Contact Us</a>
+       </div>
+       <div>
+           <a id="c_page" href="/contact_us_2" class="contact">Contact Us 2</a>
+       </div>
+       <div>list 3</div>
+       <div>list 4</div>
+       <div>list 5</div>
+       <div>list 6</div>
+    </div>
+
 </div>
 
 
