@@ -1,3 +1,41 @@
+var vidyoConnector;
+
+function onVidyoClientLoaded(status) {
+
+    if (status.state == "READY") {
+        VC.CreateVidyoConnector({
+            viewId: "video",
+            viewStyle: "VIDYO_CONNECTORVIEWSTYLE_Default",
+            remoteParticipants: 16,
+            logFileFilter: "error",
+            logFileName: "",
+            userData: ""
+        }).then(function (vc) {
+            console.log("success");
+            vidyoConnector = vc;
+        }).catch(function (error) {
+        });
+    }
+}
+    function joinCall() {
+        vidyoConnector.Connect({
+            host:"prod.vidyo.io",
+            token:"",
+            displayName:"Astghik",
+            resourceId:"demoRoom",
+            onSuccess: function () {
+                
+            },
+            onFailure:function (reason) {
+                
+            },
+            onDisconnected:function (reason) {
+                console.log("ddddddddddddd" + reason);
+            }
+        })
+
+}
+
 jQuery(document).ready(function () {
     function setCookie(cname, cvalue, exdays) {
         var d = new Date();
@@ -24,10 +62,10 @@ jQuery(document).ready(function () {
 
     setCookie('time-zone', Intl.DateTimeFormat().resolvedOptions().timeZone, 1);
 
-    var file
+    var file;
     $('[type="file"]').change(function (ev) {
         file = ev.target.files[0]
-    })
+    });
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
@@ -70,34 +108,33 @@ jQuery(document).ready(function () {
     $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
 
 
-    // setInterval(function () {
-    //     $.ajax({
-    //         url: SITE_URL + '/chat/new-messages',
-    //         type: "GET",
-    //         data: {
-    //             friend_id: $('[name="friend_id"]').val()
-    //         },
-    //         dataType: 'json'
-    //     }).done(function (res) {
-    //         $('.msg_card_body').html(res.new_message_html);
-    //         for (var id in res.user_list) {
-    //             var status = res.user_list[id];
-    //             if (status) {
-    //                 $('#user_' + id).find('.online_icon').removeClass('offline')
-    //             } else {
-    //                 $('#user_' + id).find('.online_icon').addClass('offline')
-    //             }
-    //         }
-    //
-    //         $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
-    //     });
-    // }, 1000 * 5);
+    setInterval(function () {
+        $.ajax({
+            url: SITE_URL + '/chat/new-messages',
+            type: "GET",
+            data: {
+                friend_id: $('[name="friend_id"]').val()
+            },
+            dataType: 'json'
+        }).done(function (res) {
+            $('.msg_card_body').html(res.new_message_html);
+            for (var id in res.user_list) {
+                var status = res.user_list[id];
+                if (status) {
+                    $('#user_' + id).find('.online_icon').removeClass('offline')
+                } else {
+                    $('#user_' + id).find('.online_icon').addClass('offline')
+                }
+            }
 
-    var ajax
+            $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
+        });
+    }, 1000 * 5);
+
+    var ajax;
     $('#search').keyup(function (ev) {
         ev.preventDefault();
         var txt = $(this).val();
-        // console.log(txt);
         if (ajax) {
             ajax.abort()
         }
@@ -114,3 +151,4 @@ jQuery(document).ready(function () {
 
     })
 });
+

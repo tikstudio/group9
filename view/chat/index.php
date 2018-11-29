@@ -64,7 +64,7 @@
 
                         </div>
                         <div class="video_cam">
-                            <span><i class="fas fa-video"></i></span>
+                            <span onclick="joinCall()"><i class="fas fa-video"></i></span>
                             <span><i class="fas fa-phone"></i></span>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="card-body msg_card_body">
+                <div class="card-body msg_card_body" id="video">
                     <?php foreach ($messages as $m) :
                         if ($user['id'] == $m['from']) {
                             include 'sender-message.php';
