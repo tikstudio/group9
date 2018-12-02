@@ -1,3 +1,9 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* @extend display-flex; */
 display-flex, .display-flex, .display-flex-center, .signup-content, .signin-content, .social-login, .socials {
     display: flex;
@@ -726,7 +732,20 @@ label.valid:after {
     margin-top: 0;
 }
 
-.file{
+.file {
     background: #1da0f2;
     width: 30px;
+}
+
+#send_message .emojionearea .emojionearea-editor {
+    min-height: 60px;
+    max-height: 60px;
+    margin-right: -25px;
+    padding-right: 25px !important;
+    overflow-y: scroll;
+}
+
+#send_message .emojionearea {
+    overflow: hidden;
+    width: calc(100% - 78px) !important;
 }
