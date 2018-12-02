@@ -33,11 +33,16 @@ jQuery(document).ready(function () {
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
+        if(!$('[name="message"]').val().trim()){
+            return
+        }
         var post_url = $(this).attr("action");
 
         var data = new FormData();
 
-        data.append('file', file);
+        if (file) {
+            data.append('file', file);
+        }
         data.append('message', $('[name="message"]').val())
         data.append('friend_id', $('[name="friend_id"]').val())
 
@@ -50,6 +55,7 @@ jQuery(document).ready(function () {
         }).done(function (res) {
             $('.msg_card_body').append(res);
             $('[name="message"]').val('').change();
+            file = null
             $board.get(0).scrollTo(0, $board.get(0).scrollHeight)
         });
     });

@@ -89,9 +89,8 @@ class ChatController extends Controller {
                         'image' => $image,
                     ]
                 ]);
-
             } else {
-                echo 'error';
+                echo 'Error!!! ' . $this->model->getErrorMessage();
             }
             exit;
         } else {
