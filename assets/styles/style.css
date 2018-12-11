@@ -759,3 +759,8 @@ label.valid:after {
     height: 100%;
     object-fit: contain;
 }
+
+.g-recaptcha{
+    transform: scale(0.9);
+    transform-origin: left;
+}

@@ -2,6 +2,7 @@
 
 namespace controller;
 
+
 class RegisterController extends Controller {
     public function actionIndex() {
         $errors = [];
@@ -16,6 +17,24 @@ class RegisterController extends Controller {
             $re_pass = isset($_POST['re_pass']) ? $_POST['re_pass'] : null;
             $img = isset($_POST['img']) ? $_POST['img'] : '';
 
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+            $data = array(
+                'secret' => RECAPTCHA_PRIVATE,
+                'response' => $_POST["g-recaptcha-response"]
+            );
+            $options = array(
+                'http' => array(
+                    'method' => 'POST',
+                    'content' => http_build_query($data),
+                    'header' => 'Content-Type: application/x-www-form-urlencoded'
+                ),
+            );
+            $context = stream_context_create($options);
+            $verify = file_get_contents($url, false, $context);
+            $captcha_success = json_decode($verify);
+            if (!$captcha_success->success) {
+                $errors["recaptcha"] = "Not passed";
+            }
 
             if (isset($_FILES["img"])) {
                 if ($_FILES["img"]["error"] === 0) {

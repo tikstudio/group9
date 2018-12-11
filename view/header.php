@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/style.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/emojionearea.min.css">
     <link rel="stylesheet" href="<?= SITE_URL ?>/assets/styles/chat.css">
-
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
 

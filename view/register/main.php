@@ -1,4 +1,3 @@
-
 <?php
 defined('SITE_URL') or exit;
 ?>
@@ -7,7 +6,8 @@ defined('SITE_URL') or exit;
         <div class="signup-content">
             <div class="signup-form">
                 <h2 class="form-title">Registration</h2>
-                <form action="<?= SITE_URL ?>/register" method="POST" class="register-form" id="register-form" enctype="multipart/form-data">
+                <form action="<?= SITE_URL ?>/register" method="POST" class="register-form" id="register-form"
+                      enctype="multipart/form-data">
                     <div class="form-group">
                         <?php if (isset($errors['name'])) : ?>
                             <p class="form_error"><?= $errors['name'] ?></p>
@@ -53,6 +53,10 @@ defined('SITE_URL') or exit;
                         <?php endif ?>
 
                     </div>
+                    <div class="g-recaptcha" data-sitekey="<?= RECAPTCHA_PUBLIC ?>"></div>
+                    <?php if (isset($errors['recaptcha'])) : ?>
+                        <p class="form_error"><?= $errors['recaptcha'] ?></p>
+                    <?php endif ?>
                     <div class="form-group form-button">
                         <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
                     </div>

@@ -9,7 +9,7 @@
             </div>
 
             <div class="signin-form">
-                <h2 class="form-title">Sign up</h2>
+                <h2 class="form-title">Sign In</h2>
                 <?php if (isset($errors['message'])) : ?>
                     <p class="form_error"><?= $errors['message'] ?></p>
                 <?php endif ?>

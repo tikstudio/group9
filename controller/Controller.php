@@ -3,6 +3,9 @@
 namespace controller;
 
 
+use includes\IpUtil;
+use model\Login;
+
 abstract class Controller {
     protected $model;
     protected $name;
@@ -21,6 +24,20 @@ abstract class Controller {
 
 
         $this->userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+
+        if (!$this->userId) {
+            $token = isset($_COOKIE['auth_token']) ? $_COOKIE['auth_token'] : null;
+            $ip = IpUtil::getRealIpAddr();
+
+            if ($token && $ip) {
+                $login_model = new Login();
+                $user_id = (int)$login_model->loginByToken($token, $ip);
+                $this->userId = $user_id;
+                $_SESSION['user_id'] = $user_id;
+                setcookie('auth_token', $token, time() + 60 * 60 * 24 * 30, '/');
+            }
+
+        }
 
         $this->title = '';
     }

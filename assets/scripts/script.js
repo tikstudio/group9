@@ -90,7 +90,9 @@ jQuery(document).ready(function () {
     });
 
     var $board = $('.msg_card_body')
-    $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
+    if($board.length){
+        $board.get(0).scrollTo(0, $board.get(0).scrollHeight);
+    }
 
 
     setInterval(function () {
