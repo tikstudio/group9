@@ -94,6 +94,7 @@
                             <label class="input-group-text attach_btn">
                                 <i class="fas fa-paperclip"></i>
                                 <input name="file" type="file">
+                                <div class="image-preview"></div>
                             </label>
                         </div>
                         <textarea name="message" class="form-control type_msg"

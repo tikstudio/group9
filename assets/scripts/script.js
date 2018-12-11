@@ -29,6 +29,21 @@ jQuery(document).ready(function () {
     var file
     $('[type="file"]').change(function (ev) {
         file = ev.target.files[0]
+        if (file) {
+            if (file.type === 'image/png' || file.type === 'image/jpeg') {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    $('.image-preview').html('<img src="' + reader.result + '"/>')
+                }
+            } else if (file.type === 'application/pdf') {
+                $('.image-preview').html('<img src="' + SITE_URL + '/assets/images/pdf.png"/>')
+            } else {
+                $('.image-preview').html('<img src="' + SITE_URL + '/assets/images/document-128.png"/>')
+            }
+        } else {
+            $('.image-preview').html('')
+        }
     })
 
     $("#send_message").submit(function (event) {

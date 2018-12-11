@@ -748,3 +748,14 @@ label.valid:after {
 #send_message .emojionearea {
     width: calc(100% - 78px) !important;
 }
+
+.image-preview {
+    padding: 3px 0 3px 5px;
+    background: #656565;
+}
+
+.image-preview img {
+    width: 40px;
+    height: 100%;
+    object-fit: contain;
+}
