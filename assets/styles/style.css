@@ -746,6 +746,5 @@ label.valid:after {
 }
 
 #send_message .emojionearea {
-    overflow: hidden;
     width: calc(100% - 78px) !important;
 }

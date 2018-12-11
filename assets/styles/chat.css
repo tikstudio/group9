@@ -288,7 +288,8 @@ body, html {
 .uploads img {
     width: 100%;
     height: 100%;
-    background-size: cover;
+    /*-webkit-user-drag: none;*/
+    object-fit: contain;
 }
 
 .emojionearea {
@@ -310,4 +311,9 @@ body, html {
 
 .emojionearea .emojionearea-button {
     border-radius: 50%;
+}
+
+.send_btn{
+    z-index: 9;
+    background-color: #656565 !important;
 }

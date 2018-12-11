@@ -33,7 +33,7 @@ jQuery(document).ready(function () {
 
     $("#send_message").submit(function (event) {
         event.preventDefault();
-        if(!$('[name="message"]').val().trim()){
+        if (!$('[name="message"]').val().trim() && !file) {
             return
         }
         var post_url = $(this).attr("action");
