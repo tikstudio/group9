@@ -13,14 +13,17 @@ defined('SITE_URL') or exit;
                             <p class="form_error"><?= $errors['name'] ?></p>
                         <?php endif ?>
                         <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input type="text" name="name" id="name" placeholder="Your Name"/>
+                        <input value="<?= isset($_GET['name']) ? $_GET['name'] : '' ?>" type="text" name="name"
+                               id="name"
+                               placeholder="Your Name"/>
                     </div>
                     <div class="form-group">
                         <?php if (isset($errors['email'])) : ?>
                             <p class="form_error"><?= $errors['email'] ?></p>
                         <?php endif ?>
                         <label for="email"><i class="zmdi zmdi-email"></i></label>
-                        <input type="email" name="email" id="email" placeholder="Your Email"/>
+                        <input value="<?= isset($_GET['email']) ? $_GET['email'] : '' ?>" type="email" name="email"
+                               id="email" placeholder="Your Email"/>
                     </div>
                     <div class="form-group">
                         <?php if (isset($errors['pass'])) : ?>

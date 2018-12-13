@@ -13,6 +13,12 @@ class Login extends Model {
         ]);
     }
 
+    public function OAuthLogin($email) {
+        return $this->getVar("SELECT id FROM users WHERE email = :email AND deleted = '0'", [
+            'email' => $email,
+        ]);
+    }
+
     public function setLoginData($user_id, $token = '', $ip = '') {
         return $this->query("UPDATE users set auth_token = :token, ip = :ip WHERE id = :user_id", [
             'user_id' => $user_id,

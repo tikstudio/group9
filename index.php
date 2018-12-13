@@ -3,6 +3,7 @@ session_start();
 
 include 'configs.php';
 include 'autoload.php';
+//include 'vendor/autoload.php';
 
 if (isset($_COOKIE['time-zone'])) {
     date_default_timezone_set($_COOKIE['time-zone']);

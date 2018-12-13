@@ -11,6 +11,30 @@ class LoginController extends Controller {
         $this->title = 'Login';
         $errors = [];
 
+        if (isset($_GET['fb_token'])) {
+
+            $user_details = "https://graph.facebook.com/me?fields=email,name,picture.type(large)&access_token=" . $_GET['fb_token'];
+            $response = file_get_contents($user_details);
+            $response = json_decode($response, true);
+            if ($response['email']) {
+                $user_id = $this->model->OAuthLogin($response['email']);
+                if ($user_id) {
+                    $_SESSION['user_id'] = $user_id;
+                    $this->redirect('user');
+                } else {
+                    $_SESSION['upload_image'] = $response['picture']['data']['url'];
+                    $this->redirect('register', [
+                        'email' => $response['email'],
+                        'name' => $response['name'],
+                        'oauth' => '',
+                    ]);
+
+                }
+
+            }
+
+        }
+
         if ($this->isPost()) {
             $email = isset($_POST['email']) ? $_POST['email'] : null;
             $pass = isset($_POST['pass']) ? $_POST['pass'] : null;

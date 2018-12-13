@@ -2,7 +2,6 @@
 
 namespace controller;
 
-
 class RegisterController extends Controller {
     public function actionIndex() {
         $errors = [];
@@ -11,8 +10,8 @@ class RegisterController extends Controller {
 
         if ($this->isPost()) {
             $agree = isset($_POST['agree-term']) ? $_POST['agree-term'] : null;
-            $email = isset($_POST['email']) ? $_POST['email'] : null;
-            $name = isset($_POST['name']) ? $_POST['name'] : null;
+            $email = isset($_REQUEST['email']) ? $_REQUEST['email'] : null;
+            $name = isset($_REQUEST['name']) ? $_REQUEST['name'] : null;
             $pass = isset($_POST['pass']) ? $_POST['pass'] : null;
             $re_pass = isset($_POST['re_pass']) ? $_POST['re_pass'] : null;
             $img = isset($_POST['img']) ? $_POST['img'] : '';
@@ -49,11 +48,14 @@ class RegisterController extends Controller {
                     } else {
                         $errors['img'] = 'not allowed file type';
                     }
-                } else {
-                    $errors['img'] = 'file upload error';
                 }
-            } else {
-                $errors['img'] = 'file upload error';
+            }
+
+            if (!$img && isset($_SESSION['upload_image'])) {
+                $img = uniqid('fb_') . '.jpg';
+                $data = file_get_contents($_SESSION['upload_image']);
+                file_put_contents("assets/images/" . $img, $data);
+                unset($_SESSION['upload_image']);
             }
 
 
