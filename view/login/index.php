@@ -1,5 +1,6 @@
 <?php defined('SITE_URL') or exit ?>
-
+<?php $login_url = 'https://accounts.google.com/o/oauth2/v2/auth?scope=' . urlencode('https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/plus.me') . '&redirect_uri=' . urlencode(GOOGLE_REDIRECT_URL) . '&response_type=code&client_id=' . GOOGLE_CLIENT_ID . '&access_type=online';
+?>
 <section class="sign-in">
     <div class="container">
         <div class="signin-content">
@@ -9,7 +10,7 @@
             </div>
 
             <div class="signin-form">
-                <h2 class="form-title">Sign In</h2>
+                <h2 class="form-title">Sign up</h2>
                 <?php if (isset($errors['message'])) : ?>
                     <p class="form_error"><?= $errors['message'] ?></p>
                 <?php endif ?>
@@ -36,7 +37,8 @@
                     <ul class="socials">
                         <li><a href="#" onclick="checkLoginState()"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
                         <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                        <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                        <li><a href="<?= $login_url ?>"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+
                     </ul>
                 </div>
             </div>
