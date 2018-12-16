@@ -12,7 +12,8 @@ class DbManager {
         if (!self::$con) {
             self::$con = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASS);
 //            self::$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+            self::$con->exec("SET NAMES utf8");
+            self::$con->exec("SET CHARACTER SET utf8");
         }
     }
 
